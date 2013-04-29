@@ -1,6 +1,6 @@
 package neuralNetwork;
 
-public class Function {
+public class ActivationFunctions {
 
 	public static final String STEP_FUNCTION = "STEP_FUNCTION";
 	public static final String SIGMOID = "SIGMOID";

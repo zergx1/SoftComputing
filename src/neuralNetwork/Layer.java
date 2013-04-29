@@ -1,5 +1,7 @@
 package neuralNetwork;
 
+import java.util.Arrays;
+
 /**
  * This class representive the layer in neural network
  * @author Adam
@@ -8,6 +10,7 @@ package neuralNetwork;
 public class Layer {
 
 	private Neuron neurons[];	// array with all neurons in this layer
+	private double[] errors; // error for all neurons in this layer
 	// private int numOutput;
 	private int numInput;	// number of input
 	// private int numLayers;
@@ -25,7 +28,8 @@ public class Layer {
 		neurons = new Neuron[numUnits];
 		numInput = numOfEntrences;
 		this.numUnits=numUnits;
-
+		errors = new double[numUnits];
+		Arrays.fill(this.errors, 0.0);
 		switch (nt) {
 		case Input:
 			for (int i = 0; i < numUnits; i++) {
@@ -55,7 +59,7 @@ public class Layer {
 		this.neurons =neu;
 		this.numUnits=neu.length;
 		this.numInput=num;
-
+		Arrays.fill(this.errors, 0.0);
 	}
 
 	public Neuron[] getNeurons() {
@@ -97,5 +101,17 @@ public class Layer {
 			result[i]=this.neurons[i].getWeights()[from];
 		return result;
 		
+	}
+	public double[] getErrors() {
+		if(errors == null)
+		{
+			errors = new double[numUnits];
+			for(int i = 0; i < neurons.length; i++)
+				errors[i] = neurons[i].getError();
+		}
+		return errors;
+	}
+	public void setErrors(double[] errors) {
+		this.errors = errors;
 	}
 }

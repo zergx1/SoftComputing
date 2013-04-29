@@ -1,14 +1,17 @@
 package neuralNetwork;
 
+
 public class Neuron {
 	private double[] entrence;
 	private double[] weights;
-	private double sValue;
-	private double output;
+	private double error;
+	private double[] deltaWeights;
+	private double sValue; // calculated value all weights and entrance before activation function
+	private double output;	// value of activation function
 	private double bias;
 	public NeuronType type;
 
-	public static final String ACTIVATION_FUNCTION = Function.SIGMOID;
+	public static final String ACTIVATION_FUNCTION = ActivationFunctions.SIGMOID;
 	
 	/**
 	 * constructor with unknown weights
@@ -20,6 +23,7 @@ public class Neuron {
 		type = nt;
 		switch (nt) {
 		case Input:
+			deltaWeights = new double[1];
 			weights = new double[1];
 			weights[0]= 1.0;
 			entrence = new double[1];
@@ -29,6 +33,7 @@ public class Neuron {
 
 			break;
 		case Output:
+			deltaWeights = new double[numOfEntrences];
 			weights = new double[numOfEntrences];
 			entrence = new double[numOfEntrences];
 			sValue = 0.0;
@@ -40,6 +45,7 @@ public class Neuron {
 
 			break;
 		case Hidden:
+			deltaWeights = new double[numOfEntrences];
 			weights = new double[numOfEntrences];
 			entrence = new double[numOfEntrences];
 			sValue = 0.0;
@@ -103,11 +109,11 @@ public class Neuron {
 	
 
 	/**
-	 * Function calculate new sValue:
-	 * SUM(x*w)
+	 * Function calculate new output:
+	 * F(sum(x*w))
 	 * @param nt neuron type
 	 */
-	public void sValue(NeuronType nt) { // aka update output
+	public void updateOutput(NeuronType nt) {
 		sValue=0.0;
 		for (int i = 0; i < weights.length; i++)
 			sValue += weights[i] * entrence[i];
@@ -118,12 +124,26 @@ public class Neuron {
 			break;
 		case Hidden:
 			sValue+=this.bias;	// if bias is off, than nothing happens becouse bias is equal zero
-			output = Function.calculate(ACTIVATION_FUNCTION, sValue);
+			output = ActivationFunctions.calculate(ACTIVATION_FUNCTION, sValue);
 			break;
 		case Output:
 			sValue+=this.bias;	// if bias is off, than nothing happens becouse bias is equal zero
-			output = Function.calculate(ACTIVATION_FUNCTION, sValue);
+			output = ActivationFunctions.calculate(ACTIVATION_FUNCTION, sValue);
 			break;
+		}
+	}
+	
+	/**
+	 * Neuron should has calculated error, and function calculate deltaWeight and new weight.
+	 * Equation without momentum only wi = wi - a * qi * xi. Method remember delta weight
+	 * @param alfa learning rate
+	 */
+	public void updateWeights(double alfa)
+	{
+		for(int i = 0; i < weights.length; i++)
+		{
+			this.deltaWeights[i] = alfa * error * entrence[i];
+			this.weights[i] += deltaWeights[i];
 		}
 	}
 	
@@ -142,8 +162,8 @@ public class Neuron {
 		return weights;
 	}
 
-	public void setWages(double[] wages) {
-		this.weights = wages;
+	public void setWeights(double[] weights) {
+		this.weights = weights;
 	}
 
 	public double getsValue() {
@@ -170,20 +190,14 @@ public class Neuron {
 		this.bias = bias;
 	}
 
-	
-	/**
-	 * @return only sValue without function
-	 */
-	public double return_net()
-	{
-		double[] weights = this.getWeights();
-		double[] enters = this.getEntrence();
-		double net=0;
-		for(int i=0;i<weights.length;i++)
-		{
-			net += weights[i]*enters[i];
-		}
-		return net;
+
+	public double getError() {
+		return error;
+	}
+
+
+	public void setError(double error) {
+		this.error = error;
 	}
 	
 }

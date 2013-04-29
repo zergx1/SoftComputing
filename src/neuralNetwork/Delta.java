@@ -26,10 +26,10 @@ public class Delta {
 		do
 		// till output is greater then precision
 		{
-			n.sValue(NeuronType.Output);
+			n.updateOutput(NeuronType.Output);
 			error = this.correct[0] - n.getOutput();
 			w[0] = n.getWeights()[0] + n.getEntrence()[0]*error;
-			n.setWages(w);
+			n.setWeights(w);
 			
 		}while( Math.abs(n.getOutput() - this.correct[0] ) > this.precision );
 		System.out.print(n.getOutput());
