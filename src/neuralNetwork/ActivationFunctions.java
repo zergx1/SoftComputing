@@ -5,6 +5,7 @@ public class ActivationFunctions {
 	public static final String STEP_FUNCTION = "STEP_FUNCTION";
 	public static final String SIGMOID = "SIGMOID";
 	public static final String SIGMOID_PRIM = "SIGMOID_PRIM";
+	public static final String NONE = "NONE";
 
 	// TODO other activation function
 
@@ -43,6 +44,16 @@ public class ActivationFunctions {
 	static double sigmoidPrim(double s) {
 		return sigmoid(s) * (1 - sigmoid(s));
 	}
+	/**
+	 * Returning input
+	 * 
+	 * @param s
+	 *            argument
+	 * @return value of function
+	 */
+	static double none(double s) {
+		return s;
+	}
 
 	/**
 	 * Function calculate value of activation function due to chosen variant and
@@ -61,6 +72,8 @@ public class ActivationFunctions {
 			return sigmoid(s);
 		case SIGMOID_PRIM:
 			return sigmoidPrim(s);
+		case NONE:
+			return none(s);
 		default:
 			return 0;
 		}

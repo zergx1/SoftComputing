@@ -1,38 +1,47 @@
 package neuralNetwork;
 
+import java.util.Arrays;
+
 public class Delta {
-	private double[] correct;
-	private double learnig_factor = 0.5;
-	private double precision = 0.1;
+	private double correct;
+	private double learning_rate;
+	private double precision;
 	private Neuron[] neurons;
+	private double[] entrances;
 	
-	Delta(double[] correct, double learning_factor, double precision)
+	Delta(double[] entrances, double correct, double learning_rate, double precision)
 	{
 		this.correct = correct;
-		this.learnig_factor = learning_factor;
+		this.learning_rate = learning_rate;
 		this.precision = precision;
+		this.entrances = entrances;
 		this.neurons = new Neuron[1];
-		this.neurons[0] = new Neuron(1, NeuronType.Output,false);
+		this.neurons[0] = new Neuron(entrances.length, NeuronType.Hidden,false);
 	}
 	
 	public void learn()
 	{
+		int iteration = 0;
 		Neuron n = this.neurons[0];
-		double[] entrance = new double[1];
-		entrance[0] = 0.8;
-		n.setEntrence(entrance);
+		n.setEntrence(entrances);
 		double error;
-		double[] w = new double[1];
+		double[] w = new double[n.getWeights().length];
 		do
 		// till output is greater then precision
 		{
-			n.updateOutput(NeuronType.Output);
-			error = this.correct[0] - n.getOutput();
-			w[0] = n.getWeights()[0] + n.getEntrence()[0]*error;
-			n.setWeights(w);
-			
-		}while( Math.abs(n.getOutput() - this.correct[0] ) > this.precision );
-		System.out.print(n.getOutput());
+			n.updateOutput(NeuronType.Hidden);
+			error = this.correct - n.getOutput();
+			for(int i = 0; i < w.length; i++)
+			{
+				w[i] = n.getWeights()[i] + learning_rate* n.getEntrence()[i]*error;
+				n.setWeights(w);
+			}
+			iteration++;
+		}while( Math.abs(n.getOutput() - this.correct ) > this.precision );
+		System.out.println("Number of epocs = " + iteration);
+		System.out.println("Actual entrances = " + Arrays.toString(n.getEntrence()));
+		System.out.println("Actual weights = " +  Arrays.toString(n.getWeights()));
+		System.out.print("Actual output = " + n.getOutput());
 
 	}
 	

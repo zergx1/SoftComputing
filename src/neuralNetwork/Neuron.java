@@ -11,7 +11,7 @@ public class Neuron {
 	private double bias;
 	public NeuronType type;
 
-	public static final String ACTIVATION_FUNCTION = ActivationFunctions.SIGMOID;
+	public static final String ACTIVATION_FUNCTION = ActivationFunctions.NONE;
 	
 	/**
 	 * constructor with unknown weights
