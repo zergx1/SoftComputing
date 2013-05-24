@@ -7,11 +7,11 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-			double correct = 0.6;
+			double[][] correct = {{3.0},{1.0}};
 			
-			double[] entrance = {0.5,0.1};
-			Delta d = new Delta(entrance,correct, 0.1, 0.005);
-			d.learn();
+			double[][] entrance = {{2.0,3.0},{4.0,4.0}};
+			Delta d = new Delta(0.1, 0.005);
+			d.learn(entrance,correct);
 			
 //		int [] structure = {2,1};
 //		double alfa = 0.2;
