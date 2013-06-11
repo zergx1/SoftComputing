@@ -3,12 +3,12 @@ package neuralNetwork;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class Delta {
+public class Adaline {
 	private double learning_rate;
 	private double precision;
 	private Neuron[] neurons;
 	
-	Delta(double learning_rate, double precision)
+	Adaline(double learning_rate, double precision)
 	{
 		this.learning_rate = learning_rate;
 		this.precision = precision;
