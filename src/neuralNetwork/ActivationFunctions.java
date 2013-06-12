@@ -6,6 +6,7 @@ public class ActivationFunctions {
 	public static final String SIGMOID = "SIGMOID";
 	public static final String SIGMOID_PRIM = "SIGMOID_PRIM";
 	public static final String NONE = "NONE";
+	public static final String BIPOLAR = "BIPOLAR";
 
 	// TODO other activation function
 
@@ -53,6 +54,20 @@ public class ActivationFunctions {
 	 */
 	static double none(double s) {
 		return s;
+	}
+	
+	/**
+	 * Bipolar
+	 * 
+	 * @param s
+	 *            argument
+	 * @return value of function
+	 */
+	static double bipolar(double s) {
+		if(s >= 0)
+			return 1.0;
+		else
+			return -1.0;
 	}
 
 	/**
